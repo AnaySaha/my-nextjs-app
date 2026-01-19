@@ -25,6 +25,7 @@ export default async function ServiceDetailPage({ params }) {
   ];
   const { id } = await params;
 const singledata = data.find((d) => d._id == id)
+if(singledata){
   return (
     <div>
       <h1>Service Details Page </h1>
@@ -34,5 +35,16 @@ const singledata = data.find((d) => d._id == id)
       <p>{singledata.service_description}</p>
     </div>
   );
+}
+else{
+  return(
+    <>
+    <p>
+      NOT FOUND
+    </p>
+    </>
+  )
+}
+  
 }
 
