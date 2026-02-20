@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const getPosts = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/posts")
 
@@ -12,10 +14,13 @@ const posts = await getPosts();
         {posts.map((singlePost) => {
             return(
                 
-                <div key={singlePost.id}>
-                    <p> {singlePost.id}</p>
-                    <p>{singlePost.title}</p>
-                    <p>{singlePost.body}</p>
+                <div key={singlePost.id} className='border-2 border-slate-300'>
+                   
+                    <p className="text-2xl font-bold">{singlePost.title}</p>
+                    <p className="font-semibold">{singlePost.body}</p>
+                    <Link href={`/posts/${singlePost.id}`}> 
+                    <button className="bg-green-300">Details</button>
+                    </Link>
                     </div>
             );
         })}
