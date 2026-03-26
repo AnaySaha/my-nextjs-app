@@ -1,46 +1,34 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-
 import MealSearchinput from "./components/MealSearchinput";
 
-export default function MealsPage() {
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("search") || "";
+export const metadata = {
+  title: "All Meals",
+};
 
-  const [meals, setMeals] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    async function fetchMeals() {
-      try {
-        setLoading(true);
-
-        const query = searchQuery || "a";
-
-        const res = await fetch(
-          `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`
-        );
-
-        const data = await res.json();
-        setMeals(data.meals || []);
-      } catch (error) {
-        console.log(error);
-        setMeals([]);
-      } finally {
-        setLoading(false);
+async function getMeals(query) {
+  try {
+    const res = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`,
+      {
+        cache: "no-store", // always fresh data
       }
-    }
+    );
 
-    fetchMeals();
-  }, [searchQuery]);
+    const data = await res.json();
+    return data.meals || [];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+export default async function MealsPage({ searchParams }) {
+  const query = searchParams?.search || "a";
+
+  const meals = await getMeals(query);
 
   return (
     <div className="max-w-6xl mx-auto p-6">
       <MealSearchinput />
-
-      {loading && <p>Loading...</p>}
 
       <div className="grid grid-cols-4 gap-6 mt-6">
         {meals.map((meal) => (
