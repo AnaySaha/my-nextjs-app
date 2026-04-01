@@ -17,7 +17,7 @@ export const metadata = {
     default: "Learning NextJS",
     template: "%s | Learning NextJS"
   },
-  description: "Trying to learn NextJS as best as we can",
+  description: "Trying to learn NextJS ",
 };
 
 export default function RootLayout({ children }) {
